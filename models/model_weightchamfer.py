@@ -145,31 +145,6 @@ class RefineNet(nn.Module):
         return self.conv1d_stpts_prob(features)
 
 
-class OffsetNet(nn.Module):
-    def __init__(self, num_structure_points=16, in_channel=128 + 256 + 256, mlp_list=[512, 256]):
-        super(OffsetNet, self).__init__()
-        self.Offset_modules = nn.ModuleList()
-        self.num_structure_points = num_structure_points
-        Offset_modules = []
-        last_channel = in_channel
-        for out_channel in mlp_list:
-            Offset_modules.append(nn.Conv1d(last_channel, out_channel, 1))
-            Offset_modules.append(nn.BatchNorm1d(out_channel))
-            Offset_modules.append(nn.ReLU(inplace=True))
-            last_channel = out_channel
-        self.Offset_modules = nn.Sequential(*Offset_modules)
-        self.reshape_module = nn.Conv1d(last_channel, 6, 1)
-        # self.sigmoid = nn.Sigmoid()
-
-    def forward(self, features):
-        # batch_size, in_channel, points_num = features.shape
-        # print(features.shape)
-        # features = features.permute(0, 2, 3, 1)
-        # print(features.shape)
-        features = self.Offset_modules(features)
-        # features = torch.max(features, dim=1, keepdim=False)[0]
-        features = self.reshape_module(features)
-        return features.permute(0, 2, 1)
 
 
 class FeatureMergeBlock(nn.Module):

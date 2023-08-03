@@ -157,33 +157,12 @@ def compute_vector_similarity_distance(p1, similarity_map, threshold):
     :param p2: size[bn, M, D]
     :return: sum of Chamfer Distance of two point sets
     '''
-    # B, N, D = p1.shape
-    # device = p1.device
-    #
-    # vectors = p1[:, :, None, :] - p1[:, None, :, :]
-    # similarity_map[similarity_map < threshold] = 0
-    # vectors = vectors * similarity_map.view(B, N, N, 1).to(device)
-    # vectors = torch.flatten(vectors, start_dim=1, end_dim=2)
-    #
-    # vectors_abs = torch.sum(vectors * vectors, dim=2, keepdim=True)
-    # edge_idx = torch.nonzero(vectors_abs)
-    # loss = 0
-    # edge_num = 0
-    # for b in range(B):
-    #     b_edge = edge_idx[edge_idx[:, 0] == b]
-    #     edges = torch.empty((b_edge.shape[0], D))
-    #     edge_num += b_edge.shape[0] * b_edge.shape[0]
-    #     for i, edge in enumerate(b_edge):
-    #         edges[i, :] = vectors[b, edge[1]]
-    #     for i in range(b_edge.shape[0]):
-    #         loss += torch.sum(torch.abs(F.cosine_similarity(edges[i, :].view(1, -1), edges, dim=1)))
 
     B, N, D = p1.shape
     device = p1.device
     vectors = p1[:, :, None, :] - p1[:, None, :, :]
     similarity_map[similarity_map < threshold] = 0
     vectors = vectors * similarity_map.view(B, N, N, 1).to(device)
-    # vectors[similarity_map < threshold] = 0
     vectors = torch.flatten(vectors, start_dim=1, end_dim=2)
     vectors_dot = torch.sum(vectors[:, :, None, :] * vectors[:, None, :, :], dim=3)
     idx_num = torch.sum(vectors_dot != 0)
