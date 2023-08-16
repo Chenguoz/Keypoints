@@ -1,8 +1,7 @@
 # Unsupervised Distribution-aware Keypoints Generation from 3D Point Clouds
 
 ## Description
-This repository contains the code for our paper: Unsupervised Uniformly Distributed Keypoints Generation for 3D Model.
-
+This repository contains the code for our paper: Unsupervised Distribution-aware Keypoints Generation from 3D Point Clouds.
 <div align="center">
 <img src="https://github.com/Chenguoz/Unsupervised3D/blob/main/images/Pipeline.png" width="70%" height="70%"><br><br>
 </div>
